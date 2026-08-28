@@ -18,7 +18,7 @@ public class Pizzeria {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Size (min = 5, max = 20, message = "Scegliere una lunghezza tra 5 e 20 caratteri")
+    @Size (min = 5, max = 50, message = "Scegliere una lunghezza tra 5 e 50 caratteri")
     @Column (nullable = false)
     @NotBlank
     private String name;
@@ -62,10 +62,10 @@ public class Pizzeria {
         this.img = img;
     }
 
-    public Integer getPrice(){
+    public Double getPrice(){
         return this.price;
     }
-    public void setPrice(Integer price){
+    public void setPrice(Double price){
         this.price = price;
     }
 }

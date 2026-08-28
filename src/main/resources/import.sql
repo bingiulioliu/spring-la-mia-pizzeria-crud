@@ -1,0 +1,8 @@
+INSERT INTO pizzas (name, description, img, price) VALUES ('Pizza Margherita', 'Pomodoro, mozzarella, basilico fresco', 'https://images.unsplash.com/photo-1604382354936-07c5d9983bd3', 6.50);
+INSERT INTO pizzas (name, description, img, price) VALUES ('Pizza Diavola', 'Pomodoro, mozzarella, salame piccante', 'https://images.unsplash.com/photo-1628840042765-356cda07504e', 7.50);
+INSERT INTO pizzas (name, description, img, price) VALUES ('Pizza Quattro Formaggi', 'Mozzarella, gorgonzola, fontina, parmigiano', 'https://images.unsplash.com/photo-1513104890138-7c749659a591', 8.50);
+INSERT INTO pizzas (name, description, img, price) VALUES ('Pizza Capricciosa', 'Pomodoro, mozzarella, prosciutto cotto, funghi, carciofi', 'https://images.unsplash.com/photo-1574071318508-1cdbab80d002', 9.00);
+INSERT INTO pizzas (name, description, img, price) VALUES ('Pizza Marinara', 'Pomodoro, aglio, origano, olio extravergine', 'https://images.unsplash.com/photo-1590947132387-155cc02f3212', 5.50);
+INSERT INTO pizzas (name, description, img, price) VALUES ('Pizza Vegetariana', 'Pomodoro, mozzarella, zucchine, melanzane, peperoni', 'https://images.unsplash.com/photo-1571407970349-bc81e7e96d47', 8.00);
+INSERT INTO pizzas (name, description, img, price) VALUES ('Pizza Prosciutto', 'Pomodoro, mozzarella, prosciutto cotto', 'https://images.unsplash.com/photo-1534308983496-4fabb1a015ee', 7.00);
+INSERT INTO pizzas (name, description, img, price) VALUES ('Pizza Calzone', 'Ricotta, mozzarella, prosciutto cotto, pomodoro', 'https://images.unsplash.com/photo-1628840042765-356cda07504e', 8.50);
