@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -28,9 +29,9 @@ public class Pizzeria {
     @NotBlank(message = "Inserire un url")
     private String img;
 
-    @NotBlank(message = "Inserire un prezzo")
+    @NotNull(message = "Inserire un prezzo")
     @Min(value = 1, message = "Il prezzo non può essere negativo o pari a zero")
-    private Integer price;
+    private Double price;
 
     // Getter e setter
     public Integer getId(){
