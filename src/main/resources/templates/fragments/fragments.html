@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+
+    <!-- 1. FRAGMENT NAVBAR -->
+    <nav th:fragment="navbar(activePage)" class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm mb-4">
+        <div class="container">
+            <a class="navbar-brand fw-bold" th:href="@{/}">🍕 La Mia Pizzeria</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" th:classappend="${activePage == 'home' ? 'active' : ''}" th:href="@{/}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:classappend="${activePage == 'pizzas' ? 'active' : ''}" th:href="@{/pizzas}">Le Nostre Pizze</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- 2. FRAGMENT ELENCO PIZZE (CARD GRID) -->
+    <div th:fragment="pizzaList(pizzas)" class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="col" th:each="pizza : ${pizzas}">
+            <div class="card h-100 shadow-sm">
+                <img th:src="${pizza.img}" class="card-img-top" th:alt="${pizza.name}" style="height: 200px; object-fit: cover;">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title fw-bold" th:text="${pizza.name}">Nome Pizza</h5>
+                    <p class="card-text text-muted flex-grow-1" th:text="${pizza.description}">Descrizione pizza</p>
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <span class="fs-5 fw-bold text-success" th:text="${#numbers.formatDecimal(pizza.price, 1, 2) + ' €'}">6.50 €</span>
+                        <a th:href="@{/pizzas/{id}(id=${pizza.id})}" class="btn btn-outline-primary btn-sm">Dettagli</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FRAGMENT BARRA DI RICERCA -->
+<form th:fragment="searchBar" th:action="@{/pizzas/findByName}" method="GET" class="d-flex my-3" role="search">
+    <input class="form-control me-2" 
+        type="search" 
+        name="name" 
+        placeholder="Cerca una pizza per nome..." 
+        aria-label="Cerca"
+        th:value="${param.name}">
+    <button class="btn btn-outline-success" type="submit">Cerca</button>
+</form>
+
+
+    <!-- 3. FRAGMENT DETTAGLIO PIZZA -->
+    <div th:fragment="pizzaDetail(pizza)" class="card shadow-lg border-0 my-4">
+        <div class="row g-0">
+            <div class="col-md-6">
+                <img th:src="${pizza.img}" class="img-fluid rounded-start h-100" th:alt="${pizza.name}" style="object-fit: cover; min-height: 300px;">
+            </div>
+            <div class="col-md-6 d-flex align-items-center">
+                <div class="card-body p-4">
+                    <span class="badge bg-danger mb-2">Pizzeria Specialità</span>
+                    <h2 class="card-title fw-bold mb-3" th:text="${pizza.name}">Nome Pizza</h2>
+                    <p class="card-text fs-5 text-secondary mb-4" th:text="${pizza.description}">Descrizione della pizza</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="display-6 fw-bold text-success" th:text="${#numbers.formatDecimal(pizza.price, 1, 2) + ' €'}">8.50 €</span>
+                        <a th:href="@{/pizzas}" class="btn btn-secondary">← Torna al menu</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

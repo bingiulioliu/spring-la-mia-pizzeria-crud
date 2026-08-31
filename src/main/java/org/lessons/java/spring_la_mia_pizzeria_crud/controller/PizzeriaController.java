@@ -1,6 +1,7 @@
 package org.lessons.java.spring_la_mia_pizzeria_crud.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.lessons.java.spring_la_mia_pizzeria_crud.model.Pizzeria;
 import org.lessons.java.spring_la_mia_pizzeria_crud.repository.PizzeriaRepository;
@@ -27,19 +28,27 @@ public class PizzeriaController {
     public String index(Model model) {
         List<Pizzeria> pizzas = repository.findAll();
         model.addAttribute("pizzas", pizzas);
-        return "pizzas.index";
+        return "pizzas/index";
     }
 
     @GetMapping("/{id}")
     public String show(@PathVariable("id") Integer id, Model model) {
-        Pizzeria pizza = repository.findById(id).get();
-        model.addAttribute("pizza", pizza);
-        return "/pizzas/pizzaDetail";
+        Optional<Pizzeria> pizza = repository.findById(id);
+        if (pizza.isEmpty()){
+            return "redirect:/pizzas";
+        }
+        model.addAttribute("pizza", pizza.get());
+        return "pizzas/pizzaDetail";
     }
 
     @GetMapping("/findByName")
     public String findByName(@RequestParam(name = "name") String name, Model model) {
-        List<Pizzeria> pizzas = repository.findByNameContaining(name);
+        List<Pizzeria> pizzas;
+        if (name != null && !name.isBlank()){
+            pizzas = repository.findByNameContainingIgnoringCase(name);
+        } else {
+            pizzas = repository.findAll();
+        }
         model.addAttribute("pizzas", pizzas);
         return "pizzas/index";
     }
