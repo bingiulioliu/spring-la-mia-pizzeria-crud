@@ -7,9 +7,10 @@
 <body>
 
     <div th:replace="~{fragments/fragments :: navbar('pizzas')}"></div>
-
     <div class="container my-4">
         <h1 class="mb-4">Il nostro menù</h1>
+        
+        <a th:href="@{/pizzas/create}" class="btn btn-success">Inserisci una pizza</a>
 
         <div th:replace="~{fragments/fragments :: searchBar}"></div>
 

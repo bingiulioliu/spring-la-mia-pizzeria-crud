@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 
@@ -73,6 +75,22 @@ public class PizzeriaController {
         repository.save(formPizzeria);
         return "redirect:/pizzas";
     }
+    
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable Integer id, Model model) {
+        model.addAttribute("pizza", repository.findById(id).get());
+        return "pizzas/edit";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String update(@Valid @ModelAttribute("pizza") Pizzeria formPizzeria, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()){
+            return "pizzas/edit";
+        }
+        repository.save(formPizzeria);
+        return "redirect:/pizzas";
+    }
+    
     
 
 }

@@ -12,11 +12,11 @@
             <div class="col-md-8">
                 <div class="card shadow-sm">
                     <div class="card-header bg-primary text-white">
-                        <h3 class="card-title mb-0">Aggiungi una nuova pizza</h3>
+                        <h3 class="card-title mb-0">Modifica una pizza</h3>
                     </div>
                     <div class="card-body p-4">
 
-                        <form th:action="@{/pizzas/create}" th:object="${pizza}" method="POST">
+                        <form th:action="@{/pizzas/edit/{id}(id=${pizza.id})}" th:object="${pizza}" method="POST">
 
                             <!-- Campo name -->
                             <div class="mb-3">
@@ -46,7 +46,7 @@
                                 </div>
                             </div>
 
-                            <!-- Campo descrizione) -->
+                            <!-- Campo descrizione -->
                             <div class="mb-3">
                                 <label for="description" class="form-label fw-bold">Descrizione</label>
                                 <input type="text" 
@@ -77,7 +77,7 @@
                             <!-- Pulsanti di Azione -->
                             <div class="d-flex justify-content-between">
                                 <a th:href="@{/pizzas}" class="btn btn-secondary">Annulla</a>
-                                <button type="submit" class="btn btn-success">Salva pizza</button>
+                                <button type="submit" class="btn btn-success">Modifica pizza</button>
                             </div>
 
                         </form>
