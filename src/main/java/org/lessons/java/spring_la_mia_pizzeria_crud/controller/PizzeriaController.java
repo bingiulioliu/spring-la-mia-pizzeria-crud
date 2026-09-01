@@ -7,10 +7,16 @@ import org.lessons.java.spring_la_mia_pizzeria_crud.model.Pizzeria;
 import org.lessons.java.spring_la_mia_pizzeria_crud.repository.PizzeriaRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import jakarta.validation.Valid;
+
+import org.springframework.web.bind.annotation.PostMapping;
 
 
 
@@ -53,4 +59,20 @@ public class PizzeriaController {
         return "pizzas/index";
     }
     
+    @GetMapping("/create")
+    public String create(Model model) {
+        model.addAttribute("pizza", new Pizzeria());
+        return "pizzas/create";
+    }
+    
+    @PostMapping("/create")
+    public String store(@Valid @ModelAttribute("pizza") Pizzeria formPizzeria, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()){
+            return "pizzas/create";
+        }
+        repository.save(formPizzeria);
+        return "redirect:/pizzas";
+    }
+    
+
 }
