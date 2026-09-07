@@ -17,9 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-
-
 
 
 @Controller
@@ -31,10 +28,22 @@ public class PizzeriaController {
     public PizzeriaController(PizzeriaRepository repository){
         this.repository = repository;
     }
-
-    @GetMapping
+/** 
+    // @GetMapping
     public String index(Model model) {
         List<Pizzeria> pizzas = repository.findAll();
+        model.addAttribute("pizzas", pizzas);
+        return "pizzas/index";
+    }
+    */
+    @GetMapping
+    public String index(@RequestParam(name = "name", required = false) String name, Model model) {
+        List<Pizzeria> pizzas;
+        if (name != null && !name.isBlank()){
+            pizzas = repository.findByNameContainingIgnoringCase(name);
+        } else {
+            pizzas = repository.findAll();
+        }
         model.addAttribute("pizzas", pizzas);
         return "pizzas/index";
     }
@@ -47,18 +56,6 @@ public class PizzeriaController {
         }
         model.addAttribute("pizza", pizza.get());
         return "pizzas/pizzaDetail";
-    }
-
-    @GetMapping("/findByName")
-    public String findByName(@RequestParam(name = "name") String name, Model model) {
-        List<Pizzeria> pizzas;
-        if (name != null && !name.isBlank()){
-            pizzas = repository.findByNameContainingIgnoringCase(name);
-        } else {
-            pizzas = repository.findAll();
-        }
-        model.addAttribute("pizzas", pizzas);
-        return "pizzas/index";
     }
     
     @GetMapping("/create")
