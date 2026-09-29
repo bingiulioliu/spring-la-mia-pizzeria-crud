@@ -14,8 +14,8 @@ import jakarta.validation.constraints.Size;
 @Entity
 @Table(name = "pizzas")
 public class Pizza {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id //pk
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // autoincrement
     private Integer id;
 
     @Size (min = 5, max = 50, message = "Scegliere una lunghezza tra 5 e 50 caratteri")

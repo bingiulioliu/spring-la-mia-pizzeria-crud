@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 
 @Controller
-@RequestMapping("/pizzas")
+@RequestMapping("/pizzas") // il controller gestisce le chiamate di base da questo url
 public class PizzaController {
     
     private final PizzaRepository repository;
@@ -36,7 +36,7 @@ public class PizzaController {
         return "pizzas/index";
     }
     */
-    @GetMapping
+    @GetMapping // Chiamata di tipo GET
     public String index(@RequestParam(name = "name", required = false) String name, Model model) {
         List<Pizza> pizzas;
         if (name != null && !name.isBlank()){
@@ -44,13 +44,13 @@ public class PizzaController {
         } else {
             pizzas = repository.findAll();
         }
-        model.addAttribute("pizzas", pizzas);
-        return "pizzas/index";
+        model.addAttribute("pizzas", pizzas); // Aggiungo a "pizzas" il risultato caricato dal DB
+        return "pizzas/index"; // restituisco questo Model a index dentro pizzas
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}") // @PathVariable per passare nell'url l'id dell'elemento da recuperare 
     public String show(@PathVariable("id") Integer id, Model model) {
-        Optional<Pizza> pizza = repository.findById(id);
+        Optional<Pizza> pizza = repository.findById(id); // carichiamo l'elemento dal DB
         if (pizza.isEmpty()){
             return "redirect:/pizzas";
         }
@@ -58,33 +58,43 @@ public class PizzaController {
         return "pizzas/pizzaDetail";
     }
     
-    @GetMapping("/create")
+    @GetMapping("/create") // restituisce una view con form
+    // imposta nel model un attributo "pizza" con cui popolare il form
     public String create(Model model) {
+        // le colonne in th sono fields
         model.addAttribute("pizza", new Pizza());
-        return "pizzas/create";
+        return "pizzas/create"; 
     }
     
-    @PostMapping("/create")
-    public String store(@Valid @ModelAttribute("pizza") Pizza formPizzeria, BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors()){
-            return "pizzas/create";
+    @PostMapping("/create") // al momento del submit
+    public String store(
+        @Valid @ModelAttribute("pizza") Pizza formPizza, // Valid fa il check della validazione in Entity
+        BindingResult bindingResult, // metodo passato come parametro
+        Model model) {
+        
+            if (bindingResult.hasErrors()){ // cerco se ci sono errori
+            return "pizzas/create"; // se si ritorno il form dove segnalo gli errori da correggere
         }
-        repository.save(formPizzeria);
-        return "redirect:/pizzas";
+        repository.save(formPizza); // se non ci sono errori, salvo
+        return "redirect:/pizzas"; // redirect per evitare doppia imissione di dati
     }
     
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable Integer id, Model model) {
-        model.addAttribute("pizza", repository.findById(id).get());
+        model.addAttribute("pizza", repository.findById(id).get()); // passiamo il record che vogliamo editare
         return "pizzas/edit";
     }
 
     @PostMapping("/edit/{id}")
-    public String update(@Valid @ModelAttribute("pizza") Pizza formPizzeria, BindingResult bindingResult, Model model) {
+    public String update(
+        @Valid @ModelAttribute("pizza") Pizza formPizza,  // Otteniamo i dati passati tramite form
+        BindingResult bindingResult, 
+        Model model) {
+
         if (bindingResult.hasErrors()){
             return "pizzas/edit";
         }
-        repository.save(formPizzeria);
+        repository.save(formPizza); // salvo
         return "redirect:/pizzas";
     }
     
