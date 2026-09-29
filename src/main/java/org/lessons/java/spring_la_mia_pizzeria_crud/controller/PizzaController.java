@@ -3,8 +3,8 @@ package org.lessons.java.spring_la_mia_pizzeria_crud.controller;
 import java.util.List;
 import java.util.Optional;
 
-import org.lessons.java.spring_la_mia_pizzeria_crud.model.Pizzeria;
-import org.lessons.java.spring_la_mia_pizzeria_crud.repository.PizzeriaRepository;
+import org.lessons.java.spring_la_mia_pizzeria_crud.model.Pizza;
+import org.lessons.java.spring_la_mia_pizzeria_crud.repository.PizzaRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,11 +21,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 @RequestMapping("/pizzas")
-public class PizzeriaController {
+public class PizzaController {
     
-    private final PizzeriaRepository repository;
+    private final PizzaRepository repository;
 
-    public PizzeriaController(PizzeriaRepository repository){
+    public PizzaController(PizzaRepository repository){
         this.repository = repository;
     }
 /** 
@@ -38,7 +38,7 @@ public class PizzeriaController {
     */
     @GetMapping
     public String index(@RequestParam(name = "name", required = false) String name, Model model) {
-        List<Pizzeria> pizzas;
+        List<Pizza> pizzas;
         if (name != null && !name.isBlank()){
             pizzas = repository.findByNameContainingIgnoringCase(name);
         } else {
@@ -50,7 +50,7 @@ public class PizzeriaController {
 
     @GetMapping("/{id}")
     public String show(@PathVariable("id") Integer id, Model model) {
-        Optional<Pizzeria> pizza = repository.findById(id);
+        Optional<Pizza> pizza = repository.findById(id);
         if (pizza.isEmpty()){
             return "redirect:/pizzas";
         }
@@ -60,12 +60,12 @@ public class PizzeriaController {
     
     @GetMapping("/create")
     public String create(Model model) {
-        model.addAttribute("pizza", new Pizzeria());
+        model.addAttribute("pizza", new Pizza());
         return "pizzas/create";
     }
     
     @PostMapping("/create")
-    public String store(@Valid @ModelAttribute("pizza") Pizzeria formPizzeria, BindingResult bindingResult, Model model) {
+    public String store(@Valid @ModelAttribute("pizza") Pizza formPizzeria, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()){
             return "pizzas/create";
         }
@@ -80,7 +80,7 @@ public class PizzeriaController {
     }
 
     @PostMapping("/edit/{id}")
-    public String update(@Valid @ModelAttribute("pizza") Pizzeria formPizzeria, BindingResult bindingResult, Model model) {
+    public String update(@Valid @ModelAttribute("pizza") Pizza formPizzeria, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()){
             return "pizzas/edit";
         }
